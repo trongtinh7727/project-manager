@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import Header from "../../components/Header";
-import { colors } from "../../theme"; // Import the colors object
+import { colors } from "../../theme"; 
 
 const Dashboard = () => {
     return (
