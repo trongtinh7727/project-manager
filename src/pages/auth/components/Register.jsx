@@ -1,13 +1,4 @@
-import {
-    AccountCircle,
-    CheckBox,
-    Email,
-    Facebook,
-    Google,
-    Lock,
-    Visibility,
-    VisibilityOff,
-} from "@mui/icons-material";
+import { AccountCircle, Email, Lock, Visibility, VisibilityOff, Google } from "@mui/icons-material";
 import {
     Box,
     Button,
@@ -17,27 +8,26 @@ import {
     Link,
     TextField,
     Typography,
+    useMediaQuery
 } from "@mui/material";
 import { useState } from 'react';
+import { API_URL } from '../../../utils/constants';
 
 const RegisterPage = () => {
-
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
     const [helperText, setHelperText] = useState('');
+    const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
-    const handleToggleVisibility = () => {
-        setShowPassword(!showPassword);
-    };
+    const handleToggleVisibility = () => setShowPassword(!showPassword);
 
     const handlePasswordChange = (event) => {
         const newPassword = event.target.value;
         setPassword(newPassword);
-
         if (newPassword.length < 8) {
             setError(true);
-            setHelperText('Your password is not strong enough. Use at least 8 characters');
+            setHelperText('Password must be at least 8 characters');
         } else {
             setError(false);
             setHelperText('');
@@ -45,161 +35,92 @@ const RegisterPage = () => {
     };
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '50%', height: '100%', }}>
-            <Box sx={{ width: 732, height: '100%', position: "relative" }}>
-                <Box
-                    sx={{ width: 404, position: "absolute", top: 150, left: 164 }}
-                >
-                    <Box sx={{ padding: '8px 16px' }}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            label="Full name"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <AccountCircle />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Box>
-                    <Box sx={{ padding: '8px 16px' }}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            label="Email"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Email />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Box>
-                    <Box sx={{ padding: '8px 16px' }}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            type="password"
-                            label="Password"
-                            value={password}
-                            onChange={handlePasswordChange}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Lock />
-                                    </InputAdornment>
-                                ),
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton onClick={handleToggleVisibility} edge="end">
-                                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                            error={error}
-                            helperText={helperText}
-                        />
-                    </Box>
+        <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: isMobile ? '100%' : '50%', p: isMobile ? 2 : 0 }}>
+            <Box sx={{ width: isMobile ? '90%' : 400 }}>
+                <Typography variant="h4" component="p" sx={{ fontWeight: 700, mb: 2 }}>Sign Up for an Account</Typography>
+
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Full name"
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <AccountCircle />
+                            </InputAdornment>
+                        ),
+                    }}
+                    sx={{ mb: 2 }}
+                />
+
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Email"
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <Email />
+                            </InputAdornment>
+                        ),
+                    }}
+                    sx={{ mb: 2 }}
+                />
+
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    type={showPassword ? "text" : "password"}
+                    label="Password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <Lock />
+                            </InputAdornment>
+                        ),
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleToggleVisibility} edge="end">
+                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                    error={error}
+                    helperText={helperText}
+                    sx={{ mb: 2 }}
+                />
+                <Box display={"flex"}>
+                    <Checkbox sx={{ color: "primary.main" }} />
+                    <Typography variant="body2">
+                        By creating an account, you agree to the <Link href="#" color="primary">Terms & Conditions</Link> and <Link href="#" color="primary">Privacy Policy</Link>
+                    </Typography>
                 </Box>
 
-                <Typography
-                    variant="body2"
-                    sx={{ position: "absolute", top: 720, left: 258, textAlign: "center" }}
-                >
-                    Already have an account?{" "}
-                    <Link href="#" color="primary">
-                        Log In
-                    </Link>
-                </Typography>
 
-                <Typography
-                    variant="h3"
-                    component="p"
-                    sx={{ position: "absolute", top: 100, left: 164, fontWeight: 700, fontSize: 24 }}
-                >
-                    Sign Up for an Account
-                </Typography>
+                <Button variant="contained" color="primary" fullWidth sx={{ height: 56, mt: 2 }}>Sign Up</Button>
+                <Box sx={{ my: 2 }}>
+                    <Typography variant="body2" sx={{ textAlign: "center", mb: 2 }}>
+                        Already have an account? <Link href="/login" color="primary">Login</Link>
+                    </Typography>
+                </Box>
+                <Box display="flex" alignItems="center" sx={{ my: 2 }}>
+                    <Box sx={{ flex: 1, height: 1, backgroundColor: "grey.500" }} />
+                    <Typography variant="body2" sx={{ mx: 2 }}>Or sign up with</Typography>
+                    <Box sx={{ flex: 1, height: 1, backgroundColor: "grey.500" }} />
+                </Box>
 
                 <Button
-                    variant="contained"
-                    color="primary"
-                    sx={{
-                        width: 404,
-                        height: 56,
-                        position: "absolute",
-                        top: 500,
-                        left: 164,
-                    }}
+                    variant="outlined"
+                    startIcon={<Google />}
+                    fullWidth
+                    onClick={() => window.location.href = `${API_URL}/auth/google`}
+                    sx={{ height: 56 }}
                 >
-                    Sign Up
+                    Google
                 </Button>
-
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        position: "absolute",
-                        top: 420,
-                        left: 164,
-                    }}
-                >
-                    <Checkbox
-                        icon={<CheckBox />}
-                        checkedIcon={<CheckBox />}
-                        sx={{ color: "primary.main" }}
-                    />
-                    <Typography variant="body2">
-                        By creating an account means you agree to the{" "}
-                        <Link href="#" color="primary">
-                            Terms & Conditions
-                        </Link>{" "}
-                        and our{" "}
-                        <Link href="#" color="primary">
-                            Privacy Policy
-                        </Link>
-                    </Typography>
-                </Box>
-
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        position: "absolute",
-                        top: 580,
-                        left: 164,
-                        width: 404,
-                    }}
-                >
-                    <Box sx={{ flex: 1, height: 1, backgroundColor: "grey.500" }} />
-                    <Typography variant="body2" sx={{ mx: 2 }}>
-                        Or sign up with
-                    </Typography>
-                    <Box sx={{ flex: 1, height: 1, backgroundColor: "grey.500" }} />
-                </Box>
-
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        position: "absolute",
-                        top: 630,
-                        left: 165,
-                        width: 403,
-                    }}
-                >
-                    <Button
-                        variant="outlined"
-                        startIcon={<Google />}
-                        sx={{ flex: 1, height: 56, mr: 1 }}
-                    >
-                        Google
-                    </Button>
-
-                </Box>
             </Box>
         </Box>
     );

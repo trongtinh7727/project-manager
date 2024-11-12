@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { fetchCurrentUser, logout  } from './redux/slices/authSlice';
+import { fetchCurrentUser, logout } from './redux/slices/authSlice';
 import { fetchWorkspaces } from './redux/slices/workspaceSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,6 +21,9 @@ export default function App() {
   const [isSidebar, setIsSidebar] = useState(true);
 
   useEffect(() => {
+    if ((location.pathname === '/login' || location.pathname === '/register')) {
+      return;
+    }
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       dispatch(fetchCurrentUser());
@@ -31,6 +34,9 @@ export default function App() {
   }, [dispatch]);
 
   useEffect(() => {
+    if ((location.pathname === '/login' || location.pathname === '/register')) {
+      return;
+    }
     if (error) {
       navigate('/login');
     }
