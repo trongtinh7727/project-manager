@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../../redux/slices/authSlice';
+import { API_URL } from '../../../utils/constants';
 import { AccountCircle, Email, Lock, Visibility, VisibilityOff, Google } from "@mui/icons-material";
 import {
     Box,
@@ -143,6 +144,7 @@ const LoginPage = () => {
                     <Button
                         variant="outlined"
                         startIcon={<Google />}
+                        onClick={() => window.location.href = `${API_URL}/auth/google`}
                         sx={{ width: '100%', height: 56 }}
                     >
                         Google

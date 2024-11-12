@@ -6,7 +6,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Box, IconButton, Typography } from "@mui/material";
 import React from "react";
 
-const Dashboard = () => {
+const TaskPage = (task) => {
     const users = [
         { id: 1, name: 'John Doe' },
         { id: 2, name: 'Jane Smith' },
@@ -15,7 +15,7 @@ const Dashboard = () => {
     return (
         <Box m="20px">
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="DASHBOARD" />
+                <Header title="TaskPage" />
             </Box>
             <Box
                 display="flex"
@@ -71,4 +71,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default TaskPage;

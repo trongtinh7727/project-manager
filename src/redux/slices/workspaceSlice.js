@@ -5,12 +5,12 @@ import WorkspaceService from '../../services/workspace';
 // Async thunk to fetch all workspaces
 export const fetchWorkspaces = createAsyncThunk(
   'workspace/fetchWorkspaces',
-  async (_, { rejectWithValue }) => {
+  async (userId, { rejectWithValue }) => {
     try {
-      const response = await WorkspaceService.getWorkspaces();
-      return response.data;
+      const response = await WorkspaceService.getWorkspaces(userId);
+      return response.data.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to fetch workspaces');
+      return rejectWithValue(error.response?.data.message || 'Failed to fetch workspaces');
     }
   }
 );
@@ -21,9 +21,10 @@ export const fetchWorkspaceById = createAsyncThunk(
   async (workspaceId, { rejectWithValue }) => {
     try {
       const response = await WorkspaceService.getWorkspaceById(workspaceId);
-      return response.data;
+      
+      return response.data.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to fetch workspace');
+      return rejectWithValue(error.response?.data.message || 'Failed to fetch workspace');
     }
   }
 );
@@ -165,6 +166,5 @@ const workspaceSlice = createSlice({
   },
 });
 
-// Export actions and reducer
 export const { clearSelectedWorkspace } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

@@ -1,11 +1,11 @@
 import api from './api';
 
 const WorkspaceService = {
-  getWorkspaces: () => api.get('/workspaces'),
-  getWorkspaceById: (workspaceId) => api.get(`/workspaces/${workspaceId}`),
-  createWorkspace: (workspaceData) => api.post('/workspaces', workspaceData),
-  updateWorkspace: (workspaceId, updatedData) => api.put(`/workspaces/${workspaceId}`, updatedData),
-  deleteWorkspace: (workspaceId) => api.delete(`/workspaces/${workspaceId}`),
+  getWorkspaces: (userID) => api.get(`/user/${userID}/workspaces`),
+  getWorkspaceById: (workspaceId) => api.get(`/workspace/${workspaceId}`),
+  createWorkspace: (workspaceData) => api.post('/workspace', workspaceData),
+  updateWorkspace: (workspaceId, updatedData) => api.put(`/workspace/${workspaceId}`, updatedData),
+  deleteWorkspace: (workspaceId) => api.delete(`/workspace/${workspaceId}`),
 };
 
 export default WorkspaceService;
